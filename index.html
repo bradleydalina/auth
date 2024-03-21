@@ -4,7 +4,25 @@
   <head><meta name="google-signin-client_id" content="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"></head>
   <body>
     <script src="https://accounts.google.com/gsi/client" async></script>
-<!--     <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <!--     <script src="https://apis.google.com/js/platform.js" async defer></script> -->
+    <div id="g_id_onload"
+     data-client_id="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"
+     data-context="signin"
+     data-ux_mode="popup"
+     data-login_uri="https://she3t.netlify.app"
+     data-nonce=""
+     data-itp_support="true">
+</div>
+
+<div class="g_id_signin"
+     data-type="standard"
+     data-shape="rectangular"
+     data-theme="outline"
+     data-text="signin_with"
+     data-size="large"
+     data-logo_alignment="left">
+</div>
+<!-- 
     <script>
       const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
       function handleCredentialResponse(response) {
@@ -59,9 +77,9 @@
     google.accounts.id.cancel();
     showPasswordPage();
   }
-    </script>
+    </script> -->
 <!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 <!--     <div id="signout_button"></div> -->
-    <a href="#" onclick="onSignout();">Sign out</a>
+<!--     <a href="#" onclick="onSignout();">Sign out</a> -->
   </body>
 </html>
