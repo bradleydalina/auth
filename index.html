@@ -1,43 +1,59 @@
 <!DOCTYPE html>
 <html>
+  <head><meta name="google-signin-client_id" content="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"></head>
   <body>
-    <script src="https://accounts.google.com/gsi/client" async></script>
+<!--     <script src="https://accounts.google.com/gsi/client" async></script> -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
-      const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
-      function handleCredentialResponse(response) {
-        //console.log("Encoded JWT ID token: " + response.credential);
-        const responsePayload = response.credential.split('.');
-        const payload= JSON.parse(base64.decode(responsePayload[1]));
-        console.log(payload);
-       console.log("ID: " + payload.sub);
-       console.log('Full Name: ' + payload.name);
-       console.log('Given Name: ' + payload.given_name);
-       console.log('Family Name: ' + payload.family_name);
-       console.log("Image URL: " + payload.picture);
-       console.log("Email: " + payload.email);
-      }
-      window.onload = function () {
-        google.accounts.id.initialize({
-          client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline", size: "large", type:"icon" } 
-          // customization attributes
-        );
-        //google.accounts.id.prompt(); // also display the One Tap dialog
+      // const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
+      // function handleCredentialResponse(response) {
+      //   //console.log("Encoded JWT ID token: " + response.credential);
+      //   const responsePayload = response.credential.split('.');
+      //   const payload= JSON.parse(base64.decode(responsePayload[1]));
+      //   console.log(payload);
+      //  console.log("ID: " + payload.sub);
+      //  console.log('Full Name: ' + payload.name);
+      //  console.log('Given Name: ' + payload.given_name);
+      //  console.log('Family Name: ' + payload.family_name);
+      //  console.log("Image URL: " + payload.picture);
+      //  console.log("Email: " + payload.email);
+      // }
+      // window.onload = function () {
+      //   google.accounts.id.initialize({
+      //     client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
+      //     callback: handleCredentialResponse
+      //   });
+      //   google.accounts.id.renderButton(
+      //     document.getElementById("buttonDiv"),
+      //     { theme: "outline", size: "large", type:"icon" } 
+      //     // customization attributes
+      //   );
+      //   //google.accounts.id.prompt(); // also display the One Tap dialog
 
-        var logout = function() {
-            document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
+      //   var logout = function() {
+      //       document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
+      //   }
+      //   const button = document.getElementById('signout_button');
+      //   button.onclick = logout;
+
+        function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
         }
-        const button = document.getElementById('signout_button');
-        button.onclick = logout;
-
-        
       }
     </script>
-    <div id="buttonDiv"></div>
-    <div id="signout_button">Sign Out</div>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
+    <script>
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+    </script>
   </body>
 </html>
