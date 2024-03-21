@@ -7,13 +7,13 @@
   <body>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <!--     <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-    <div id="g_id_onload"
+<div id="g_id_onload"
      data-client_id="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"
      data-context="signin"
      data-ux_mode="popup"
-     data-login_uri="https://she3t.netlify.app"
+     data-callback="handleCredentialResponse"
      data-nonce=""
-     data-itp_support="true">
+     data-itp_support="false">
 </div>
 
 <div class="g_id_signin"
@@ -24,6 +24,20 @@
      data-size="large"
      data-logo_alignment="left">
 </div>
+     <script>
+        function handleCredentialResponse(response) {
+        //console.log("Encoded JWT ID token: " + response.credential);
+        const responsePayload = response.credential.split('.');
+        const payload= JSON.parse(base64.decode(responsePayload[1]));
+        console.log(payload);
+       console.log("ID: " + payload.sub);
+       console.log('Full Name: ' + payload.name);
+       console.log('Given Name: ' + payload.given_name);
+       console.log('Family Name: ' + payload.family_name);
+       console.log("Image URL: " + payload.picture);
+       console.log("Email: " + payload.email);        
+      }
+     </script>
 <!-- 
     <script>
       const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
