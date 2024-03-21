@@ -29,7 +29,7 @@
           { theme: "outline", size: "large", type:"icon" } 
           // customization attributes
         );
-        //google.accounts.id.prompt(); // also display the One Tap dialog
+        google.accounts.id.prompt(); // also display the One Tap dialog
 
         var logout = function() {
             document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
@@ -46,7 +46,7 @@
         // }
       }
     </script>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+<!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
     <div data-onsuccess="signout_button"></div>
 <!--     <a href="#" onclick="signOut();">Sign out</a> -->
     <script>
