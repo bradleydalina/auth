@@ -1,54 +1,31 @@
-<html><head></head><body>
-<script>
-  var YOUR_CLIENT_ID = '579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com';
-  var YOUR_REDIRECT_URI = 'https://she3t.netlify.app';
-  var fragmentString = location.hash.substring(1);
-
-  // Parse query string to see if page request is coming from OAuth 2.0 server.
-  var params = {};
-  var regex = /([^&=]+)=([^&]*)/g, m;
-  while (m = regex.exec(fragmentString)) {
-    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-  }
-  if (Object.keys(params).length > 0) {
-    localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
-    if (params['state'] && params['state'] == 'try_sample_request') {
-      trySampleRequest();
-    }
-  }
-
-  // If there's an access token, try an API request.
-  // Otherwise, start OAuth 2.0 flow.
-  function trySampleRequest() {
-    var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
-    if (params && params['access_token']) {
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET',
-          'https://people.googleapis.com/$discovery/rest?version=v1' +
-          'access_token=' + params['access_token']);
-      xhr.onreadystatechange = function (e) {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-          console.log(xhr.response);
-        } else if (xhr.readyState === 4 && xhr.status === 401) {
-          // Token invalid, so prompt for user permission.
-          oauth2SignIn();
+<!DOCTYPE html>
+<html>
+  <head><meta name="google-signin-client_id" content="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"/></head>
+  <body>
+    <script src="https://apis.google.com/js/api.js" async defer></script>
+    <script>
+        gapi.load('auth2', function(){
+          gapi.auth2.init();
+        });
+        function onSignIn(googleUser) {
+          var profile = googleUser.getBasicProfile();
+          console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+          console.log('Name: ' + profile.getName());
+          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
         }
-      };
-      xhr.send(null);
-    } else {
-      oauth2SignIn();
-    }
-  }
-
-  /*
-   * Create form to request access token from Google's OAuth 2.0 server.
-   */
-  function oauth2SignIn() {
-    // Google's OAuth 2.0 endpoint for requesting an access token
-    console.log('hello');    
-  }
-</script>
-
-<button onclick="trySampleRequest();">Try sample request</button>
-</body></html>
-
+      // }
+    </script>
+    <div id="signIn"></div>
+<!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+    <a href="#" onclick="signOut();">Sign out</a>
+    <script>
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+    </script>
+  </body>
+</html>
