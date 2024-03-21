@@ -3,8 +3,7 @@
   <body>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
-      const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}}; 
-       
+      const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
       function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
         const responsePayload = response.credential.split('.');
