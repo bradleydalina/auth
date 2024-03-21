@@ -31,11 +31,7 @@
         );
         google.accounts.id.prompt(); // also display the One Tap dialog
 
-        var logout = function() {
-            document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
-        }
-        const button = document.getElementById('signout_button');
-        button.onclick = logout;
+        
 
         // function onSignIn(googleUser) {
         //   var profile = googleUser.getBasicProfile();
@@ -44,6 +40,11 @@
         //   console.log('Image URL: ' + profile.getImageUrl());
         //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
         // }
+
+        const button = document.getElementById('signout_button');
+        button.onclick = function() {
+            document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
+        }
       }
     </script>
 <!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
