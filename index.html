@@ -62,14 +62,6 @@
     </script>
 <!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 <!--     <div id="signout_button"></div> -->
-    <a href="#" onclick="signOut();">Sign out</a>
-    <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
+    <a href="#" onclick="onSignout();">Sign out</a>
   </body>
 </html>
