@@ -1,127 +1,53 @@
-
 <!DOCTYPE html>
 <html>
-  <head>
-<!--     <meta name="google-signin-client_id" content="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"> -->
-  </head>
-  <body>
-    <script src="https://accounts.google.com/gsi/client" async></script>
-    <!--     <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-    <div id="g_id_onload"
-     data-client_id="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"
-     data-context="signin"
-     data-callback="handleCredentialResponse"
-     data-nonce=""
-     data-auto_select="true"
-     data-itp_support="true">
+<head>
+</head>
+<body>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<div id="g_id_onload"
+    data-client_id="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"
+    data-context="signin"
+    data-callback="handleCredentialResponse"
+    data-nonce=""
+    data-auto_select="true"
+    data-itp_support="true">
 </div>
-<!-- <div id="g_id_onload"
-     data-client_id="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-nonce=""
-     data-auto_prompt="false">
-</div>
+<script>
+const base64 = { encode: function utoa(str) { return window.btoa(unescape(encodeURIComponent(str))); }, decode: function atou(str) { return decodeURIComponent(escape(window.atob(str))); } };
 
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left">
-</div> -->
-<!-- <div id="g_id_onload"
-     data-client_id="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"
-     data-context="signin"
-     data-ux_mode="popup"
-     data-callback="handleCredentialResponse"
-     data-nonce=""
-     data-itp_support="false">
-</div>
-
-<div class="g_id_signin"
-     data-type="standard"
-     data-shape="rectangular"
-     data-theme="outline"
-     data-text="signin_with"
-     data-size="large"
-     data-logo_alignment="left">
-</div> -->
-     <script>
-       const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
-        function handleCredentialResponse(response) {
-        //console.log("Encoded JWT ID token: " + response.credential);
+function handleCredentialResponse(response) {
+    // Check if user is logged in
+    if (response.credential) {
         const responsePayload = response.credential.split('.');
-        const payload= JSON.parse(base64.decode(responsePayload[1]));
+        const payload = JSON.parse(base64.decode(responsePayload[1]));
         console.log(payload);
-       console.log("ID: " + payload.sub);
-       console.log('Full Name: ' + payload.name);
-       console.log('Given Name: ' + payload.given_name);
-       console.log('Family Name: ' + payload.family_name);
-       console.log("Image URL: " + payload.picture);
-       console.log("Email: " + payload.email);        
-      }
-     </script>
-<!-- 
-    <script>
-      const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
-      function handleCredentialResponse(response) {
-        //console.log("Encoded JWT ID token: " + response.credential);
-        const responsePayload = response.credential.split('.');
-        const payload= JSON.parse(base64.decode(responsePayload[1]));
-        console.log(payload);
-       console.log("ID: " + payload.sub);
-       console.log('Full Name: ' + payload.name);
-       console.log('Given Name: ' + payload.given_name);
-       console.log('Family Name: ' + payload.family_name);
-       console.log("Image URL: " + payload.picture);
-       console.log("Email: " + payload.email);
-        
-      }
-      window.onload = function () {
+        console.log("ID: " + payload.sub);
+        console.log('Full Name: ' + payload.name);
+        console.log('Given Name: ' + payload.given_name);
+        console.log('Family Name: ' + payload.family_name);
+        console.log("Image URL: " + payload.picture);
+        console.log("Email: " + payload.email);
 
-        
-        google.accounts.id.initialize({
-          client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline", size: "large", type:"icon" } 
-          // customization attributes
-        );
-        google.accounts.id.prompt(); // also display the One Tap dialog
+        // Hide the login button
+        document.getElementById('loginButton').style.display = 'none';
+        // Show the logout button
+        document.getElementById('logoutButton').style.display = 'block';
+    }
+}
 
-      }
+function logout() {
+    // Show the login button
+    document.getElementById('loginButton').style.display = 'block';
+    // Hide the logout button
+    document.getElementById('logoutButton').style.display = 'none';
+}
 
-        // function onSignIn(googleUser) {
-        //   var profile = googleUser.getBasicProfile();
-        //   console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-        //   console.log('Name: ' + profile.getName());
-        //   console.log('Image URL: ' + profile.getImageUrl());
-        //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-        // }
+</script>
 
-        // const button = document.getElementById('signout_button');
-        // button.onclick = function() {
-        //     document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
-        // }
-      function onSignout() {
-          google.accounts.id.disableAutoSelect();
-        }
-      function onSignIn() {
-        let cred = {id: '...', password: '...'};
-        google.accounts.id.storeCredential(cred);
-      }
-      function onNextButtonClicked() {
-    google.accounts.id.cancel();
-    showPasswordPage();
-  }
-    </script> -->
-<!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-<!--     <div id="signout_button"></div> -->
-<!--     <a href="#" onclick="onSignout();">Sign out</a> -->
-  </body>
+<!-- Login Button -->
+<button id="loginButton" onclick="google.accounts.id.prompt()">Login</button>
+<!-- Logout Button -->
+<button id="logoutButton" style="display: none;" onclick="logout()">Logout</button>
+
+</body>
 </html>
