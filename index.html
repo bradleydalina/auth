@@ -3,7 +3,7 @@
 <html>
   <head><meta name="google-signin-client_id" content="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"></head>
   <body>
-<!--     <script src="https://accounts.google.com/gsi/client" async></script> -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
       const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
@@ -47,14 +47,15 @@
       }
     </script>
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
-    <a href="#" onclick="signOut();">Sign out</a>
+    <div data-onsuccess="signout_button"></div>
+<!--     <a href="#" onclick="signOut();">Sign out</a> -->
     <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
+      // function signOut() {
+      //   var auth2 = gapi.auth2.getAuthInstance();
+      //   auth2.signOut().then(function () {
+      //     console.log('User signed out.');
+      //   });
+      // }
     </script>
   </body>
 </html>
