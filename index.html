@@ -3,16 +3,18 @@
   <body>
     <script src="https://accounts.google.com/gsi/client" async></script>
     <script>
-      
+      const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}}; 
+       
       function handleCredentialResponse(response) {
         console.log("Encoded JWT ID token: " + response.credential);
-        const responsePayload = decodeJwtResponse(response.credential);
-       console.log("ID: " + responsePayload.sub);
-       console.log('Full Name: ' + responsePayload.name);
-       console.log('Given Name: ' + responsePayload.given_name);
-       console.log('Family Name: ' + responsePayload.family_name);
-       console.log("Image URL: " + responsePayload.picture);
-       console.log("Email: " + responsePayload.email);
+        const responsePayload = response.credential.split('.');
+        const payload= base64.decode(responsePayload[1]);
+       console.log("ID: " + payload.sub);
+       console.log('Full Name: ' + payload.name);
+       console.log('Given Name: ' + payload.given_name);
+       console.log('Family Name: ' + payload.family_name);
+       console.log("Image URL: " + payload.picture);
+       console.log("Email: " + payload.email);
       }
       window.onload = function () {
         google.accounts.id.initialize({
