@@ -34,7 +34,7 @@
         );
         google.accounts.id.prompt(); // also display the One Tap dialog
 
-        
+      }
 
         // function onSignIn(googleUser) {
         //   var profile = googleUser.getBasicProfile();
@@ -48,7 +48,17 @@
         // button.onclick = function() {
         //     document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
         // }
+      function onSignout() {
+          google.accounts.id.disableAutoSelect();
+        }
+      function onSignIn() {
+        let cred = {id: '...', password: '...'};
+        google.accounts.id.storeCredential(cred);
       }
+      function onNextButtonClicked() {
+    google.accounts.id.cancel();
+    showPasswordPage();
+  }
     </script>
 <!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
 <!--     <div id="signout_button"></div> -->
