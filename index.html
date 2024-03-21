@@ -4,7 +4,7 @@
   <head><meta name="google-signin-client_id" content="579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com"></head>
   <body>
     <script src="https://accounts.google.com/gsi/client" async></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+<!--     <script src="https://apis.google.com/js/platform.js" async defer></script> -->
     <script>
       const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
       function handleCredentialResponse(response) {
@@ -18,8 +18,11 @@
        console.log('Family Name: ' + payload.family_name);
        console.log("Image URL: " + payload.picture);
        console.log("Email: " + payload.email);
+        
       }
       window.onload = function () {
+
+        
         google.accounts.id.initialize({
           client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
           callback: handleCredentialResponse
