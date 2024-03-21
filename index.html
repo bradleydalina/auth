@@ -44,22 +44,22 @@
         //   console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
         // }
 
-        const button = document.getElementById('signout_button');
-        button.onclick = function() {
-            document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
-        }
+        // const button = document.getElementById('signout_button');
+        // button.onclick = function() {
+        //     document.location.href = "https://appengine.google.com/_ah/logout?continue=https://she3t.netlify.app/";//https://www.google.com/accounts/Logout?continue=
+        // }
       }
     </script>
 <!--     <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
-    <div id="signout_button"></div>
-<!--     <a href="#" onclick="signOut();">Sign out</a> -->
+<!--     <div id="signout_button"></div> -->
+    <a href="#" onclick="signOut();">Sign out</a>
     <script>
-      // function signOut() {
-      //   var auth2 = gapi.auth2.getAuthInstance();
-      //   auth2.signOut().then(function () {
-      //     console.log('User signed out.');
-      //   });
-      // }
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
     </script>
   </body>
 </html>
