@@ -5,6 +5,7 @@
         </head>
         <body>
             <div id="btn-signin"></div>
+            <button id="btn-signout" onclick="signout()" style="display:none;">Logout</button>
             <script>
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
                 function handleCredentialResponse(response) {
@@ -27,12 +28,23 @@
                     });
                     google.accounts.id.renderButton(
                         document.getElementById("btn-signin"),
-                        { theme: "outline", size: "large", type:"icon" } 
+                        { theme: "outline", size: "large", type:"standard" } 
                     );
                     google.accounts.id.prompt();
                 }
+                function signout(){
+                    google.accounts.id.revoke('1618033988749895', done => {
+                        console.log(done.error);
+                    });
+                }
+                function onSignIn() {
+                    document.getElementById("btn-signout").style.display="block";
+                    document.getElementById("btn-signin").style.display="none";
+                }
                 function onSignout() {
                     google.accounts.id.disableAutoSelect();
+                    document.getElementById("btn-signout").style.display="none";
+                    document.getElementById("btn-signin").style.display="block";
                 }
             </script>
         </body>
