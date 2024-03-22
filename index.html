@@ -2,9 +2,9 @@
     <html>
         <head>
             <script src="https://accounts.google.com/gsi/client" async></script>
-            <script src="https://apis.google.com/js/platform.js" async defer></script>
         </head>
         <body>
+            <div id="btn-signin"></div>
             <script>
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
                 function handleCredentialResponse(response) {
@@ -26,7 +26,7 @@
                         callback: handleCredentialResponse
                     });
                     google.accounts.id.renderButton(
-                        document.getElementById("buttonDiv"),
+                        document.getElementById("btn-signin"),
                         { theme: "outline", size: "large", type:"icon" } 
                     );
                     google.accounts.id.prompt();
