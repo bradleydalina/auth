@@ -10,40 +10,75 @@
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
                 (function(w, d){ 
                      'use_strict';
-                     var payload;
-                     w.onload = function () {
-                            console.log(google.accounts)
-                            console.log(google.accounts.id)
-                            google.accounts.id.initialize({
-                                client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
-                                callback: handleCredentialResponse
-                            });
-                            google.accounts.id.renderButton(
-                                d.getElementById("btn-signin"),
-                                { theme: "outline", size: "large", type:"standard" } 
-                            );
-                            //google.accounts.id.prompt();
-                            d.getElementById("btn-signout").addEventListener('click', signout());
-                        }
+                     w.onload = function updateUI() {
+                                    const userDataString = localStorage.getItem('user-session');
+                                    const isLoggedIn = userDataString !== null;
+                                    //console.log(google.accounts)
+                                    //console.log(google.accounts.id)
+                                    if (isLoggedIn) {
+                                        try {
+                                            const userData = JSON.parse(userDataString);
+                                            if (userData.expirationTime < Date.now()) {
+                                                signout();
+                                                console.log('Session expired. Please log in again.');
+                                            } else {
+                                                console.log('Welcome back, ' + userData.fullname + '!');
+                                            }
+                                        } catch (error) {
+                                            console.error('Error during session management:', error);
+                                            signout();
+                                            console.log('An unexpected error occurred. Please try again.');
+                                        }
+                                    } else {
+                                        google.accounts.id.initialize({
+                                            client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
+                                            callback: handleCredentialResponse
+                                        });
+                                        google.accounts.id.renderButton(
+                                            d.getElementById("btn-signin"),
+                                            { theme: "outline", size: "large", type:"standard" } 
+                                        );
+                                        //google.accounts.id.prompt();
+                                        console.log('You are logged out.');
+                                    }
+                                }     
+                     d.getElementById("btn-signout").addEventListener('click', signout());
                     function handleCredentialResponse(response) {
                         const responsePayload = response.credential.split('.');
-                        payload= JSON.parse(base64.decode(responsePayload[1]));
-                        console.log(payload);
-                        console.log("ID: " + payload.sub);
-                        console.log('Full Name: ' + payload.name);
-                        console.log('Given Name: ' + payload.given_name);
-                        console.log('Family Name: ' + payload.family_name);
-                        console.log("Image URL: " + payload.picture);
-                        console.log("Email: " + payload.email);        
+                        w.payload= JSON.parse(base64.decode(responsePayload[1]));
+                        console.log(w.payload);
+                        console.log("ID: " + w.payload.sub);
+                        console.log('Full Name: ' + w.payload.name);
+                        console.log('Given Name: ' + w.payload.given_name);
+                        console.log('Family Name: ' + w.payload.family_name);
+                        console.log("Image URL: " + w.payload.picture);
+                        console.log("Email: " + w.payload.email);        
                     }
                     function signout(){
-                        google.accounts.id.revoke(payload.sub, done => {
+                        localStorage.removeItem('user-session');
+                        updateUI();
+                    }
+                    function revokeAccess() {
+                        localStorage.removeItem('user-session');
+                        google.accounts.id.revoke(w.payload.sub, done => {
                             console.log(done.error);
                         });
+                        updateUI();
+                        console.log('Access revoked. You are logged out.');
                     }
                     function onSignIn() {
                         d.getElementById("btn-signout").style.display="block";
                         d.getElementById("btn-signin").style.display="none";
+
+                        const userData = {
+                            id: w.payload.sub,
+                            fullname:  w.payload.name,
+                            email: w.payload.email,
+                            
+                            expirationTime: Date.now() + (1 * 60 * 60 * 1000) // 1 hour in milliseconds
+                        };
+                        localStorage.setItem('user-session', JSON.stringify(userData));
+                        updateUI();
                     }
                     function onSignout() {
                         google.accounts.id.disableAutoSelect();
