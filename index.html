@@ -7,9 +7,8 @@
             <div id="btn-signin"></div>
             <button id="btn-signout" style="display:none;">Logout</button>
             <script>
-                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
-                (function(w, d){                     
-                        function updateUI() {                        
+                const base64 ={encode: function utoa(str){return windowindow.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(windowindow.atob(str)));}};  
+                function updateUI() {                        
                                     const userDataString = localStorage.getItem('userData');
                                     const isLoggedIn = userDataString !== null;                                    
                                     if (isLoggedIn) {
@@ -32,14 +31,14 @@
                                 } 
                     function handleCredentialResponse(response) {
                         const responsePayload = response.credential.split('.');
-                        w.payload= JSON.parse(base64.decode(responsePayload[1]));
-                        console.log(w.payload);
-                        console.log("ID: " + w.payload.sub);
-                        console.log('Full Name: ' + w.payload.name);
-                        console.log('Given Name: ' + w.payload.given_name);
-                        console.log('Family Name: ' + w.payload.family_name);
-                        console.log("Image URL: " + w.payload.picture);
-                        console.log("Email: " + w.payload.email);  
+                        window.payload= JSON.parse(base64.decode(responsePayload[1]));
+                        console.log(window.payload);
+                        console.log("ID: " + window.payload.sub);
+                        console.log('Full Name: ' + window.payload.name);
+                        console.log('Given Name: ' + window.payloadocument.given_name);
+                        console.log('Family Name: ' + window.payload.family_name);
+                        console.log("Image URL: " + window.payload.picture);
+                        console.log("Email: " + window.payload.email);  
                          updateIU();
                     }
                     function signout(){
@@ -48,20 +47,20 @@
                     }
                     function revokeAccess() {
                         localStorage.removeItem('userData');
-                        google.accounts.id.revoke(w.payload.sub, done => {
+                        google.accounts.id.revoke(window.payload.sub, done => {
                             console.log(done.error);
                         });
                         updateUI();
                         console.log('Access revoked. You are logged out.');
                     }
                     function onSignIn() {
-                        d.getElementById("btn-signout").style.display="block";
-                        d.getElementById("btn-signin").style.display="none";
+                        document.getElementById("btn-signout").style.display="block";
+                        document.getElementById("btn-signin").style.display="none";
 
                         const userData = {
-                            id: w.payload.sub,
-                            fullname:  w.payload.name,
-                            email: w.payload.email,
+                            id: window.payload.sub,
+                            fullname:  window.payload.name,
+                            email: window.payload.email,
                             
                             expirationTime: Date.now() + (1 * 60 * 60 * 1000) // 1 hour in milliseconds
                         };
@@ -70,18 +69,18 @@
                     }
                     function onSignout() {
                         google.accounts.id.disableAutoSelect();
-                        d.getElementById("btn-signout").style.display="none";
-                        d.getElementById("btn-signin").style.display="block";
+                        document.getElementById("btn-signout").style.display="none";
+                        document.getElementById("btn-signin").style.display="block";
                     }
 
-                    d.getElementById("btn-signout").addEventListener('click', signout);
-                    w.onload = function(){
+                    document.getElementById("btn-signout").addEventListener('click', signout);
+                    window.onload = function(){
                         google.accounts.id.initialize({
                             client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
                             callback: handleCredentialResponse
                         });
                         google.accounts.id.renderButton(
-                            d.getElementById("btn-signin"),
+                            document.getElementById("btn-signin"),
                             { theme: "outline", size: "large", type:"standard" } 
                         );
                         //google.accounts.id.prompt();
@@ -89,7 +88,6 @@
                         //console.log(google.accounts.id)
                         
                     }
-                })(window, document);
             </script>
         </body>
     </html>
