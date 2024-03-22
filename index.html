@@ -10,7 +10,6 @@
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
                 (function(w, d){ 
                      'use_strict';
-                     w.onload = updateIU();
                      function updateUI() {
                                     const userDataString = localStorage.getItem('user-session');
                                     const isLoggedIn = userDataString !== null;
@@ -42,8 +41,7 @@
                                         //google.accounts.id.prompt();
                                         console.log('You are logged out.');
                                     }
-                                }     
-                     d.getElementById("btn-signout").addEventListener('click', signout());
+                                } 
                     function handleCredentialResponse(response) {
                         const responsePayload = response.credential.split('.');
                         w.payload= JSON.parse(base64.decode(responsePayload[1]));
@@ -86,6 +84,8 @@
                         d.getElementById("btn-signout").style.display="none";
                         d.getElementById("btn-signin").style.display="block";
                     }
+                    d.getElementById("btn-signout").addEventListener('click', signout());
+                    w.onload = updateIU();
                 })(window, document);
             </script>
         </body>
