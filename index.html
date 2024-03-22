@@ -14,35 +14,36 @@
      data-auto_select="true"
      data-itp_support="true">
 </div>
-      <button onclick="onSignout()">Signout</button>
-     <script>
-       const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
-        function handleCredentialResponse(response) {
-        const responsePayload = response.credential.split('.');
-        const payload= JSON.parse(base64.decode(responsePayload[1]));
-        console.log(payload);
-       console.log("ID: " + payload.sub);
-       console.log('Full Name: ' + payload.name);
-       console.log('Given Name: ' + payload.given_name);
-       console.log('Family Name: ' + payload.family_name);
-       console.log("Image URL: " + payload.picture);
-       console.log("Email: " + payload.email);        
-      }
-
-       window.onload = function () {
-        google.accounts.id.initialize({
-          client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline", size: "large", type:"icon" } 
-        );
-        google.accounts.id.prompt();
-      }
-         function onSignout() {
-          google.accounts.id.disableAutoSelect();
-        }
-     </script>
+        <script>
+            const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
+            function handleCredentialResponse(response) {
+                const responsePayload = response.credential.split('.');
+                const payload= JSON.parse(base64.decode(responsePayload[1]));
+                console.log(payload);
+                console.log("ID: " + payload.sub);
+                console.log('Full Name: ' + payload.name);
+                console.log('Given Name: ' + payload.given_name);
+                console.log('Family Name: ' + payload.family_name);
+                console.log("Image URL: " + payload.picture);
+                console.log("Email: " + payload.email);        
+            }
+        
+            window.onload = function () {
+                console.log(google.accounts)
+                console.log(google.accounts.id)
+                google.accounts.id.initialize({
+                    client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
+                    callback: handleCredentialResponse
+                });
+                // google.accounts.id.renderButton(
+                //     document.getElementById("buttonDiv"),
+                //     { theme: "outline", size: "large", type:"icon" } 
+                //     );
+                //     google.accounts.id.prompt();
+            }
+            function onSignout() {
+                google.accounts.id.disableAutoSelect();
+            }
+        </script>
   </body>
 </html>
