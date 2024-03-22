@@ -35,11 +35,11 @@
                     client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
                     callback: handleCredentialResponse
                 });
-                // google.accounts.id.renderButton(
-                //     document.getElementById("buttonDiv"),
-                //     { theme: "outline", size: "large", type:"icon" } 
-                //     );
-                //     google.accounts.id.prompt();
+                google.accounts.id.renderButton(
+                    document.getElementById("buttonDiv"),
+                    { theme: "outline", size: "large", type:"icon" } 
+                    );
+                    // google.accounts.id.prompt();
             }
             function onSignout() {
                 google.accounts.id.disableAutoSelect();
