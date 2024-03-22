@@ -5,7 +5,7 @@
         </head>
         <body>
             <div id="btn-signin"></div>
-            <button id="btn-signout" onclick="signout()" style="display:none;">Logout</button>
+            <button id="btn-signout" style="display:none;">Logout</button>
             <script>
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
                 (function(w, d){ 
@@ -23,6 +23,7 @@
                                 { theme: "outline", size: "large", type:"standard" } 
                             );
                             //google.accounts.id.prompt();
+                            d.getElementById("btn-signout").addEventListener('click', signout());
                         }
                     function handleCredentialResponse(response) {
                         const responsePayload = response.credential.split('.');
