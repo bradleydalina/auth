@@ -9,9 +9,8 @@
             <script>
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
                 (function(w, d){ 
-                     'use_strict';
                      function updateUI() {
-                                    const userDataString = localStorage.getItem('user-session');
+                                    const userDataString = localStorage.getItem('userData');
                                     const isLoggedIn = userDataString !== null;
                                     //console.log(google.accounts)
                                     //console.log(google.accounts.id)
@@ -54,11 +53,11 @@
                         console.log("Email: " + w.payload.email);        
                     }
                     function signout(){
-                        localStorage.removeItem('user-session');
+                        localStorage.removeItem('userData');
                         updateUI();
                     }
                     function revokeAccess() {
-                        localStorage.removeItem('user-session');
+                        localStorage.removeItem('userData');
                         google.accounts.id.revoke(w.payload.sub, done => {
                             console.log(done.error);
                         });
@@ -76,7 +75,7 @@
                             
                             expirationTime: Date.now() + (1 * 60 * 60 * 1000) // 1 hour in milliseconds
                         };
-                        localStorage.setItem('user-session', JSON.stringify(userData));
+                        localStorage.setItem('userData', JSON.stringify(userData));
                         updateUI();
                     }
                     function onSignout() {
