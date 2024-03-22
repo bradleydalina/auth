@@ -9,7 +9,7 @@
             <script>
                 const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
                 (function(w, d){ 
-                    d.getElementById("btn-signout").addEventListener('click', signout());
+                    d.getElementById("btn-signout").addEventListener('click', signout);
                     w.onload = function(){
                         google.accounts.id.initialize({
                             client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
