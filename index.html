@@ -7,7 +7,7 @@
             <div id="btn-signin"></div>
             <button id="btn-signout" style="display:none;">Logout</button>
             <script>
-                const base64 ={encode: function utoa(str){return windowindow.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(windowindow.atob(str)));}};  
+                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
                 function updateUI() {                        
                                     const userDataString = localStorage.getItem('userData');
                                     const isLoggedIn = userDataString !== null;                                    
