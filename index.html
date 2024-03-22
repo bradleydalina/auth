@@ -7,45 +7,49 @@
             <div id="btn-signin"></div>
             <button id="btn-signout" onclick="signout()" style="display:none;">Logout</button>
             <script>
-                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};        
-                function handleCredentialResponse(response) {
-                    const responsePayload = response.credential.split('.');
-                    const payload= JSON.parse(base64.decode(responsePayload[1]));
-                    console.log(payload);
-                    console.log("ID: " + payload.sub);
-                    console.log('Full Name: ' + payload.name);
-                    console.log('Given Name: ' + payload.given_name);
-                    console.log('Family Name: ' + payload.family_name);
-                    console.log("Image URL: " + payload.picture);
-                    console.log("Email: " + payload.email);        
-                }            
-                window.onload = function () {
-                    console.log(google.accounts)
-                    console.log(google.accounts.id)
-                    google.accounts.id.initialize({
-                        client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
-                        callback: handleCredentialResponse
-                    });
-                    google.accounts.id.renderButton(
-                        document.getElementById("btn-signin"),
-                        { theme: "outline", size: "large", type:"standard" } 
-                    );
-                    google.accounts.id.prompt();
-                }
-                function signout(){
-                    google.accounts.id.revoke('1618033988749895', done => {
-                        console.log(done.error);
-                    });
-                }
-                function onSignIn() {
-                    document.getElementById("btn-signout").style.display="block";
-                    document.getElementById("btn-signin").style.display="none";
-                }
-                function onSignout() {
-                    google.accounts.id.disableAutoSelect();
-                    document.getElementById("btn-signout").style.display="none";
-                    document.getElementById("btn-signin").style.display="block";
-                }
+                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
+                (function(w, d){ 
+                     'use_strict';
+                     var payload;
+                     w.onload = function () {
+                            console.log(google.accounts)
+                            console.log(google.accounts.id)
+                            google.accounts.id.initialize({
+                                client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
+                                callback: handleCredentialResponse
+                            });
+                            google.accounts.id.renderButton(
+                                d.getElementById("btn-signin"),
+                                { theme: "outline", size: "large", type:"standard" } 
+                            );
+                            //google.accounts.id.prompt();
+                        }
+                    function handleCredentialResponse(response) {
+                        const responsePayload = response.credential.split('.');
+                        payload= JSON.parse(base64.decode(responsePayload[1]));
+                        console.log(payload);
+                        console.log("ID: " + payload.sub);
+                        console.log('Full Name: ' + payload.name);
+                        console.log('Given Name: ' + payload.given_name);
+                        console.log('Family Name: ' + payload.family_name);
+                        console.log("Image URL: " + payload.picture);
+                        console.log("Email: " + payload.email);        
+                    }
+                    function signout(){
+                        google.accounts.id.revoke(payload.sub, done => {
+                            console.log(done.error);
+                        });
+                    }
+                    function onSignIn() {
+                        d.getElementById("btn-signout").style.display="block";
+                        d.getElementById("btn-signin").style.display="none";
+                    }
+                    function onSignout() {
+                        google.accounts.id.disableAutoSelect();
+                        d.getElementById("btn-signout").style.display="none";
+                        d.getElementById("btn-signin").style.display="block";
+                    }
+                })(window, document);
             </script>
         </body>
     </html>
