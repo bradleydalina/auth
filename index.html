@@ -7,9 +7,9 @@
             <div id="btn-signin"></div>
             <button id="btn-signout" style="display:none;">Logout</button>
             <script>
-                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
-                (function(w, d){ 
-                     function updateUI() {                        
+                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}}; 
+
+                function updateUI() {                        
                                     const userDataString = localStorage.getItem('userData');
                                     const isLoggedIn = userDataString !== null;
                                     
@@ -73,6 +73,8 @@
                         d.getElementById("btn-signout").style.display="none";
                         d.getElementById("btn-signin").style.display="block";
                     }
+                
+                (function(w, d){ 
                     d.getElementById("btn-signout").addEventListener('click', signout());
                     w.onload = function(){
                         google.accounts.id.initialize({
