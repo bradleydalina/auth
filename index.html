@@ -7,9 +7,22 @@
             <div id="btn-signin"></div>
             <button id="btn-signout" style="display:none;">Logout</button>
             <script>
-                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}}; 
-
-                function updateUI() {                        
+                const base64 ={encode: function utoa(str){return window.btoa(unescape(encodeURIComponent(str)));},decode: function atou(str){return decodeURIComponent(escape(window.atob(str)));}};  
+                (function(w, d){ 
+                    d.getElementById("btn-signout").addEventListener('click', signout());
+                    w.onload = function(){
+                        google.accounts.id.initialize({
+                            client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
+                            callback: handleCredentialResponse
+                        });
+                        google.accounts.id.renderButton(
+                            d.getElementById("btn-signin"),
+                            { theme: "outline", size: "large", type:"standard" } 
+                        );
+                        //google.accounts.id.prompt();
+                         //console.log(google.accounts)
+                        //console.log(google.accounts.id)
+                        function updateUI() {                        
                                     const userDataString = localStorage.getItem('userData');
                                     const isLoggedIn = userDataString !== null;                                    
                                     if (isLoggedIn) {
@@ -73,21 +86,6 @@
                         d.getElementById("btn-signout").style.display="none";
                         d.getElementById("btn-signin").style.display="block";
                     }
-                
-                (function(w, d){ 
-                    d.getElementById("btn-signout").addEventListener('click', signout());
-                    w.onload = function(){
-                        google.accounts.id.initialize({
-                            client_id: "579503422832-u7al30k2o9cifmlvqpvi8qllr2pgd580.apps.googleusercontent.com",
-                            callback: handleCredentialResponse
-                        });
-                        google.accounts.id.renderButton(
-                            d.getElementById("btn-signin"),
-                            { theme: "outline", size: "large", type:"standard" } 
-                        );
-                        //google.accounts.id.prompt();
-                         //console.log(google.accounts)
-                        //console.log(google.accounts.id)
                     }
                 })(window, document);
             </script>
