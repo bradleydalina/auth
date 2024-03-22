@@ -11,8 +11,7 @@
 
                 function updateUI() {                        
                                     const userDataString = localStorage.getItem('userData');
-                                    const isLoggedIn = userDataString !== null;
-                                    
+                                    const isLoggedIn = userDataString !== null;                                    
                                     if (isLoggedIn) {
                                         try {
                                             const userData = JSON.parse(userDataString);
@@ -40,7 +39,8 @@
                         console.log('Given Name: ' + w.payload.given_name);
                         console.log('Family Name: ' + w.payload.family_name);
                         console.log("Image URL: " + w.payload.picture);
-                        console.log("Email: " + w.payload.email);        
+                        console.log("Email: " + w.payload.email);  
+                         updateIU();
                     }
                     function signout(){
                         localStorage.removeItem('userData');
@@ -88,7 +88,6 @@
                         //google.accounts.id.prompt();
                          //console.log(google.accounts)
                         //console.log(google.accounts.id)
-                        updateIU();
                     }
                 })(window, document);
             </script>
