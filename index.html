@@ -85,7 +85,9 @@
                         d.getElementById("btn-signin").style.display="block";
                     }
                     d.getElementById("btn-signout").addEventListener('click', signout());
-                    w.onload = updateIU();
+                    w.onload = function(){
+                        updateIU();
+                    }
                 })(window, document);
             </script>
         </body>
