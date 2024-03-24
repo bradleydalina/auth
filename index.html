@@ -18,7 +18,10 @@
 
         // Function to handle logout
         function signOut() {
-            // Clear user information
+            // Clear user information from local storage
+            localStorage.removeItem('userData');
+            
+            // Clear user information displayed on the page
             document.getElementById('userProfile').innerHTML = '';
             
             // Hide logout button
@@ -33,10 +36,27 @@
             // Get user profile information from response
             var profile = response.profile;
 
+            // Store user profile information in local storage
+            localStorage.setItem('userData', JSON.stringify(profile));
+
             // Display user information
             document.getElementById('userProfile').innerHTML = 'Welcome, ' + profile.name + '!<br>';
             document.getElementById('userProfile').innerHTML += 'Email: ' + profile.email + '<br>';
         }
+
+        // Function to retrieve user session data on page load
+        function retrieveSessionData() {
+            var userDataString = localStorage.getItem('userData');
+            if (userDataString) {
+                var profile = JSON.parse(userDataString);
+                document.getElementById('userProfile').innerHTML = 'Welcome back, ' + profile.name + '!<br>';
+                document.getElementById('userProfile').innerHTML += 'Email: ' + profile.email + '<br>';
+                document.getElementById('logoutButton').style.display = 'block';
+            }
+        }
+
+        // Check session status on page load
+        window.onload = retrieveSessionData;
     </script>
     <style>
         #logoutButton {
