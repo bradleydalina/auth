@@ -9,15 +9,9 @@
     <script>
         // Function to handle successful login
         function onSignIn(response) {
-            console.log(response);
-            // Get user profile information from response
-           // var profile = response.profile;
-          // console.log(profile);
-            
-            // Display user information
-           document.getElementById('userProfile').innerHTML = 'Welcome!<br>';
-            document.getElementById('userProfile').innerHTML += 'Email<br>';
-            
+            // Trigger sign-in prompt to obtain session information
+            google.accounts.id.prompt();
+
             // Show logout button
             document.getElementById('logoutButton').style.display = 'block';
         }
@@ -29,6 +23,19 @@
             
             // Hide logout button
             document.getElementById('logoutButton').style.display = 'none';
+
+            // Sign out from Google Identity Services
+            google.accounts.id.disableAutoSelect();
+        }
+
+        // Function to handle response after obtaining session information
+        function handleCredentialResponse(response) {
+            // Get user profile information from response
+            var profile = response.profile;
+
+            // Display user information
+            document.getElementById('userProfile').innerHTML = 'Welcome, ' + profile.name + '!<br>';
+            document.getElementById('userProfile').innerHTML += 'Email: ' + profile.email + '<br>';
         }
     </script>
     <style>
