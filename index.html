@@ -11,12 +11,12 @@
         function onSignIn(response) {
             console.log(response);
             // Get user profile information from response
-            var profile = response.profile;
-            console.log(profile);
+           // var profile = response.profile;
+          // console.log(profile);
             
             // Display user information
-            document.getElementById('userProfile').innerHTML = 'Welcome, ' + profile.name + '!<br>';
-            document.getElementById('userProfile').innerHTML += 'Email: ' + profile.email + '<br>';
+           document.getElementById('userProfile').innerHTML = 'Welcome!<br>';
+            document.getElementById('userProfile').innerHTML += 'Email<br>';
             
             // Show logout button
             document.getElementById('logoutButton').style.display = 'block';
