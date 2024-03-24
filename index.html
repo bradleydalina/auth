@@ -9,8 +9,10 @@
     <script>
         // Function to handle successful login
         function onSignIn(response) {
+            console.log(response);
             // Get user profile information from response
             var profile = response.profile;
+            console.log(profile);
             
             // Display user information
             document.getElementById('userProfile').innerHTML = 'Welcome, ' + profile.name + '!<br>';
