@@ -1,36 +1,52 @@
 <!DOCTYPE html>
-    <html>
-        <head>
-            <meta name="google-signin-client_id" content="969519257728-0osbcf5pgbclqi2khvih1bfed2dnpc9l.apps.googleusercontent.com">
-        </head>
-        <body>
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
-            <div id="data" style="display:none;">
-                <p id="name"></p>
-                <img id="photo"/>
-                <p id="email"></p>
-                <button type="button" class="btn" onclick="signOut();">Sign Out</button>
-            </div>
-            <script src="https://apis.google.com/js/platform.js" async defer></script>
-            <script>
-                function onSignIn(googleUser) {
-                  var profile = googleUser.getBasicProfile();
-                  //console.log('ID: ' + profile.getId());
-                  document.getElementById("name").innerHTML=profile.getName();
-                  document.getElementById("photo").src= profile.getImageUrl();
-                  document.getElementById("email").innerHTML=profile.getEmail();
-                  document.getElementById("data").style.display="block";  
-                  document.querySelector(".g-signin2").style.display="none";  
-                }
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OAuth 2.0 Client-side Web Application</title>
+    <!-- Include Google Identity Services library -->
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script>
+        // Function to handle successful login
+        function onSignIn(response) {
+            // Get user profile information from response
+            var profile = response.profile;
+            
+            // Display user information
+            document.getElementById('userProfile').innerHTML = 'Welcome, ' + profile.name + '!<br>';
+            document.getElementById('userProfile').innerHTML += 'Email: ' + profile.email + '<br>';
+            
+            // Show logout button
+            document.getElementById('logoutButton').style.display = 'block';
+        }
 
-                  function signOut() {
-                    var auth2 = gapi.auth2.getAuthInstance();
-                    auth2.signOut().then(function () {
-                      console.log('User signed out.');
-                        document.getElementById("data").style.display="none"; 
-                        document.querySelector(".g-signin2").style.display="block"; 
-                    });
-                  }
-            </script>
-        </body>
-    </html>
+        // Function to handle logout
+        function signOut() {
+            // Clear user information
+            document.getElementById('userProfile').innerHTML = '';
+            
+            // Hide logout button
+            document.getElementById('logoutButton').style.display = 'none';
+        }
+    </script>
+    <style>
+        #logoutButton {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>OAuth 2.0 Client-side Web Application</h1>
+    
+    <div id="userProfile"></div>
+
+    <!-- Google Sign-In button -->
+    <div id="g_id_onload"
+         data-client_id="YOUR_CLIENT_ID"
+         data-context="signin"
+         data-callback="onSignIn">
+    </div>
+    
+    <button id="logoutButton" onclick="signOut()">Logout</button>
+</body>
+</html>
