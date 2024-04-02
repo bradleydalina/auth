@@ -2,52 +2,60 @@
 <html>
 <head>
   <title>Callback</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
     <button onclick="redirectToLogin()">Login with [Provider]</button>
     <button onclick="logout()">Logout</button>
 <script>
-function redirectToLogin() {
-  const clientId = '969519257728-0osbcf5pgbclqi2khvih1bfed2dnpc9l.apps.googleusercontent.com';
-  const redirectUri = 'https://she3t.netlify.app/';
-  const scope = 'profile'; // Adjust scope as needed
-  const state = generateRandomString(); // Function to generate a random string
-
-  const loginUrl = `https://google.com/oauth2/authorize?` +
-                  `response_type=token&` +
-                  `client_id=${clientId}&` +
-                  `redirect_uri=${redirectUri}&` +
-                  `scope=${scope}&` +
-                  `state=${state}`;
-
-  window.location.href = loginUrl;
-}
-function logout() {
-  // Optionally send a request to AS logout endpoint (check AS documentation)
-  removeAccessTokenFromStorage(); // Function to remove stored token
-  window.location.href = '/'; // Redirect to homepage or login page
-}
-    const urlParams = new URLSearchParams(window.location.search);
-    const accessToken = urlParams.get('access_token');
-    const state = urlParams.get('state');  // Verify state for CSRF protection
-    
-    if (accessToken) {
-      // Store access token securely (e.g., session storage)
-      console.log("Logged In! Access Token:", accessToken);
-    } else {
-      console.log("Login failed.");
-    }
-      async function getUserProfile() {
-      const accessToken = getAccessTokenFromStorage(); // Function to retrieve stored token
-      const response = await fetch('https://she3t.netlify.app', {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
+window.onload = function() {
+  google.accounts.id.initialize({
+    client_id: '969519257728-0osbcf5pgbclqi2khvih1bfed2dnpc9l.apps.googleusercontent.com',
+    callback: handleCredentialResponse
   });
+  google.accounts.id.prompt(); // Display the One Tap sign-in prompt
+};
 
-  const data = await response.json();
-  console.log("User Profile:", data);
+function handleCredentialResponse(response) {
+  // Handle the ID token in the response
+  console.log("Encoded JWT ID token: " + response.credential);
 }
+
+  // Function to set a cookie with the session token
+function setSessionCookie(token) {
+  // Set the cookie to expire in 14 days, or any other duration you prefer
+  var now = new Date();
+  var time = now.getTime();
+  var expireTime = time + 1000*36000*24*14; // 14 days in milliseconds
+  now.setTime(expireTime);
+  document.cookie = 'session_token=' + token + ';expires=' + now.toUTCString() + ';path=/';
+}
+
+// Function to get the session token from the cookie
+function getSessionCookie() {
+  var name = 'session_token=';
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+// Function to clear the session cookie
+function clearSessionCookie() {
+  document.cookie = 'session_token=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/';
+}
+
+// Call setSessionCookie() with the session token after user signs in
+// Call getSessionCookie() to check the session state
+// Call clearSessionCookie() when the user logs out
   </script>
 </body>
 </html>
