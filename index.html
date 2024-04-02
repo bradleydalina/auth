@@ -16,6 +16,7 @@ window.onload = function() {
 
 function handleCredentialResponse(response) {
   // Handle the ID token in the response
+  setSessionCookie(response.credential);
   console.log("Encoded JWT ID token: " + response.credential);
 }
 
